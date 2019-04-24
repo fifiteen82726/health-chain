@@ -1,0 +1,34 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>User:</strong>
+  <%= @order.user_id %>
+</p>
+
+<p>
+  <strong>Ac:</strong>
+  <%= @order.ac_id %>
+</p>
+
+<p>
+  <strong>Seat:</strong>
+  <%= @order.seat %>
+</p>
+
+<p>
+  <strong>Date:</strong>
+  <%= @order.date %>
+</p>
+
+<p>
+  <strong>Arrival:</strong>
+  <%= @order.arrival %>
+</p>
+
+<p>
+  <strong>Departure:</strong>
+  <%= @order.departure %>
+</p>
+
+<%= link_to 'Edit', edit_order_path(@order) %> |
+<%= link_to 'Back', orders_path %>

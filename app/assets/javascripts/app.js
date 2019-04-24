@@ -29,11 +29,11 @@ App = {
   initContract: function() {
     $.getJSON('Election.json', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
-      var AdoptionArtifact = data;
-      App.contracts.Adoption = TruffleContract(AdoptionArtifact);
+      var ElectionArtifact = data;
+      App.contracts.Election = TruffleContract(ElectionArtifact);
 
       // Set the provider for our contract
-      App.contracts.Adoption.setProvider(App.web3Provider);
+      App.contracts.Election.setProvider(App.web3Provider);
 
       // Use our contract to retrieve and mark the adopted pets
       return App.markAdopted();
@@ -46,10 +46,21 @@ App = {
     $(document).on('click', '.btn-adopt', App.handleAdopt);
   },
 
+  // fetch data from BlockChain
   markAdopted: function(adopters, account) {
+    var adoptionInstance;
+
+    App.contracts.Election.deployed().then(function(instance) {
+      adoptionInstance = instance;
+
+      return adoptionInstance.candidatesCount.call();
+    }).then(function(result) {
+      // return BlockChain API request
+      console.log(result);
     /*
      * Replace me...
      */
+   });
   },
 
   handleAdopt: function(event) {

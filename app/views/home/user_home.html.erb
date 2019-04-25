@@ -1,1 +1,32 @@
 <h1>Customer Manager Page</h1>
+<h1>My order</h1>
+
+<% @orders.each do |order| %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">ID</th>
+      <th scope="col">Airline</th>
+      <th scope="col">Seat</th>
+      <th scope="col">Date</th>
+      <th scope="col">Departure</th>
+      <th scope="col">Arrival</th>
+      <th scope="col">Action</th>
+      <th scope="col">Status</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th scope="row">3</th>
+      <td><%= order.id %></td>
+      <td><%= order.ac.name %></td>
+      <td><%= order.seat %></td>
+      <td><%= order.date %></td>
+      <td><%= order.departure %></td>
+      <td><%= order.arrival%></td>
+    </tr>
+  </tbody>
+</table>
+<% end %>
+
+

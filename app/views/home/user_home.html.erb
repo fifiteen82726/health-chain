@@ -1,3 +1,6 @@
+<div class='red'><p id="notice"><%= notice %></p></div>
+
+
 <h1>Customer Manager Page</h1>
 <h1>My order</h1>
 
@@ -24,6 +27,9 @@
       <td><%= order.departure %></td>
       <td><%= order.arrival%></td>
       <td><%= button_to 'Modify', edit_order_path(order), method: :get, class: 'btn btn-danger' if !order.status? %> </td>
+      <% if order.status? %>
+        <td> <button class='btn btn-warning'>Wait for confirming</button> </td>
+      <% end %>
     </tr>
   </tbody>
 </table>

@@ -1,5 +1,5 @@
 class OrdersController < ApplicationController
-  before_action :set_order, only: [:show, :edit, :update, :destroy]
+  before_action :set_order, only: [:show, :edit, :update, :destroy, :user_request_form]
 
   # GET /orders
   # GET /orders.json
@@ -40,15 +40,28 @@ class OrdersController < ApplicationController
   # PATCH/PUT /orders/1
   # PATCH/PUT /orders/1.json
   def update
-    respond_to do |format|
-      if @order.update(order_params)
-        format.html { redirect_to @order, notice: 'Order was successfully updated.' }
-        format.json { render :show, status: :ok, location: @order }
-      else
-        format.html { render :edit }
-        format.json { render json: @order.errors, status: :unprocessable_entity }
+    # send modified form to AC
+    if current_user
+      r = Request.new(order_params)
+      r.order_id = @order.id
+      r.save
+
+      @order.update(status: true)
+
+      respond_to do |format|
+        format.html { redirect_to users_home_path, notice: 'Request was successfully submitted.' }
       end
     end
+
+    # respond_to do |format|
+    #   if @order.update(order_params)
+    #     format.html { redirect_to @order, notice: 'Order was successfully updated.' }
+    #     format.json { render :show, status: :ok, location: @order }
+    #   else
+    #     format.html { render :edit }
+    #     format.json { render json: @order.errors, status: :unprocessable_entity }
+    #   end
+    # end
   end
 
   # DELETE /orders/1

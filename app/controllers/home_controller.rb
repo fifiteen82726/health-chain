@@ -12,6 +12,6 @@ class HomeController < ApplicationController
   end
 
   def acs_home
-
+    @c_requests = Request.where(ac_id: current_ac.id, done: false)
   end
 end

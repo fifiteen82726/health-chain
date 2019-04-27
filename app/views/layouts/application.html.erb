@@ -9,6 +9,14 @@
   </head>
 
   <body>
+    <% if current_user || current_ac %>
+      <nav class="navbar navbar-dark bg-dark">
+        <%= link_to "Home", root_path, class: 'navbar-brand' %>
+        <p class='right white'><%= current_user.try(:email) || current_ac.try(:name) %> </p>
+      </nav>
+    <% end %>
+
+
     <div class="container">
       <%= yield %>
     </div>

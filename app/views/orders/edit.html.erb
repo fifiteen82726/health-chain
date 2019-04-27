@@ -3,7 +3,45 @@
   <%= render 'form', order: @order %>
   <%= link_to 'Show', @order %> |
   <%= link_to 'Back', orders_path %>
+<% else %>
+  <h1>Previous Booking</h1>
+  <div>
+    <p>
+      <strong>User:</strong>
+      <%= @order.user.email %>
+    </p>
+
+    <p>
+      <strong>Airline:</strong>
+      <%= @order.ac.name %>
+    </p>
+
+    <p>
+      <strong>Seat:</strong>
+      <%= @order.seat %>
+    </p>
+
+    <p>
+      <strong>Date:</strong>
+      <%= @order.date %>
+    </p>
+
+    <p>
+      <strong>Arrival:</strong>
+      <%= @order.arrival %>
+    </p>
+
+    <p>
+      <strong>Departure:</strong>
+      <%= @order.departure %>
+    </p>
+  </div>
+  <h1>Modified Request</h1>
+
+
+
 <% end %>
+
 
 
 

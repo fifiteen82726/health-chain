@@ -1,0 +1,21 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  user_id: 1
+  ac_id: 1
+  seat: MyString
+  date: 2019-04-27 16:32:46
+  arrival: MyString
+  departure: MyString
+  order_id: MyString
+  integer: MyString
+
+two:
+  user_id: 1
+  ac_id: 1
+  seat: MyString
+  date: 2019-04-27 16:32:46
+  arrival: MyString
+  departure: MyString
+  order_id: MyString
+  integer: MyString

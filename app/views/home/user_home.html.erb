@@ -17,13 +17,13 @@
   </thead>
   <tbody>
     <tr>
-      <th scope="row">3</th>
       <td><%= order.id %></td>
       <td><%= order.ac.name %></td>
       <td><%= order.seat %></td>
       <td><%= order.date %></td>
       <td><%= order.departure %></td>
       <td><%= order.arrival%></td>
+      <td><%= button_to 'Modify', edit_order_path(order), method: :get, class: 'btn btn-danger' if !order.status? %> </td>
     </tr>
   </tbody>
 </table>

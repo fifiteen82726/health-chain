@@ -1,6 +1,11 @@
-<h1>Editing Order</h1>
+<% if current_user %>
+  <h1>Modified form</h1>
+  <%= render 'form', order: @order %>
+  <%= link_to 'Show', @order %> |
+  <%= link_to 'Back', orders_path %>
+<% end %>
 
-<%= render 'form', order: @order %>
 
-<%= link_to 'Show', @order %> |
-<%= link_to 'Back', orders_path %>
+
+
+

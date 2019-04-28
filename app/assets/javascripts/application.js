@@ -1,7 +1,9 @@
 //= require rails-ujs
 //= require turbolinks
-//= require jquery3
+//= require jquery
 //= require popper
 //= require bootstrap-sprockets
-//= require_tree .
+//= require web3.min.js
+//= require truffle-contract.js
+//= require app.js
 

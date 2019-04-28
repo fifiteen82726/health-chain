@@ -28,47 +28,50 @@ App = {
 
   initContract: function() {
     $.getJSON('/abi', function(data) {
-      // Get the necessary contract artifact file and instantiate it with truffle-contract
       var ElectionArtifact = data;
       App.contracts.Election = TruffleContract(ElectionArtifact);
-
-      // Set the provider for our contract
       App.contracts.Election.setProvider(App.web3Provider);
-
-      // Use our contract to retrieve and mark the adopted pets
-      // return App.markAdopted();
     });
-
-    return App.bindEvents();
-  },
-
-  bindEvents: function() {
-    // airline confirm customer's special request
-    $(document).on('click', '#confirm', App.createOrderRequest);
   },
 
   // if airline confirm user's request, create a record in blockchain
-  createOrderRequest: function(){
+  createOrderRequest: function(isExecute){
     var airlineInstance;
     web3.eth.getAccounts(function(error, accounts) {
       if (error) {
         console.log(error);
       }
       var account = accounts[0];
+      console.log('createOrderRequest');
+
       App.contracts.Election.deployed().then(function(instance) {
         airlineInstance = instance;
         // Execute adopt as a transaction by sending account
-        return airlineInstance.createOrderRequest(1, true, "0664441aca014fb2482fb6d412d506391c15e0a10645d1a4ec25869c234de7fb39eb056211a86037663d4440d22455e638394cb4f56a9694a7b89e7577ede2a5");
+
+        // get user request info
+        // orderID, request
+        var requestID = parseInt($('#request-id').text());
+        // var orderID = parseInt($('#order-id').text());
+        var seat = $('#n-seat').text();
+        var date = $('#n-date').text();
+        var departure = $('#n-departure').text();
+        var arrival = $('#n-arrival').text();
+        var airlineID = $('#n-ac-id').text();
+        var hashValue = hash(seat, date, departure, arrival, airlineID);
+        return airlineInstance.createOrderRequest(requestID, isExecute, hashValue);
       }).then(function(result) {
-        debugger
+        // update db if successful
+        // debugger
+        // result.tx => tx hash value
         // return App.markAdopted();
       }).catch(function(err) {
         console.log(err.message);
-        debugger
       });
     });
-  },
+  }
 
+  // Get hash valu by given data
+  // Allow multiple parameter
   // fetch data from BlockChain
   // markAdopted: function(adopters, account) {
   //   var adoptionInstance;
@@ -90,4 +93,16 @@ $(function() {
   $(window).load(function() {
     App.init();
   });
+  $('#confirm').click(function(event) {
+    App.createOrderRequest(true)
+  });
 });
+
+function hash(){
+  var args = arguments;
+  var rawData = "";
+  for(var i = 0; i < args.length; i++){
+    rawData += arguments[i] + '-';
+  }
+  return CryptoJS.SHA3(rawData).toString();
+}

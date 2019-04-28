@@ -3,7 +3,7 @@
 <h1>AirLine Manager Page</h1>
 
 <h1>Customer's Modified Request</h1>
-  <% @c_requests.each do |cr| %>
+<% @c_requests.each do |cr| %>
   <table class="table table-striped">
   <thead>
     <tr>
@@ -22,8 +22,7 @@
       <td><%= cr.date %></td>
       <td><%= cr.departure %></td>
       <td><%= cr.arrival%></td>
-      <td><%= button_to 'Confirm', edit_order_path(cr.order_id), class: 'btn btn-success', method: :get %>
-        <%= button_to 'Transfer to other Airline', edit_order_path(cr), method: :get, class: 'btn btn-danger'  %>
+      <td><%= button_to 'Inspect', edit_order_path(cr.order_id), class: 'btn btn-success', method: :get %>
       </td>
     </tr>
   </tbody>

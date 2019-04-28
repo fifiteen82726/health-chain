@@ -4,46 +4,46 @@
   <%= link_to 'Show', @order %> |
   <%= link_to 'Back', orders_path %>
 <% else %>
-  <h1>Previous Booking</h1>
-  <div>
-    <p>
-      <strong>User:</strong>
-      <%= @order.user.email %>
-    </p>
 
-    <p>
-      <strong>Airline:</strong>
-      <%= @order.ac.name %>
-    </p>
+  <h2> user information: <%= @order.user.email %> </h2>
 
-    <p>
-      <strong>Seat:</strong>
-      <%= @order.seat %>
-    </p>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">Type</th>
+      <th scope="col">Seat</th>
+      <th scope="col">Date</th>
+      <th scope="col">Departure</th>
+      <th scope="col">Arrival</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Previous</td>
+      <td><%= @order.seat %></td>
+      <td><%= @order.date %></td>
+      <td><%= @order.departure %></td>
+      <td><%= @order.arrival%></td>
+    </tr>
 
-    <p>
-      <strong>Date:</strong>
-      <%= @order.date %>
-    </p>
+     <tr class='red'>
+      <td>New</td>
+      <td><%= @cr.seat %></td>
+      <td><%= @cr.date %></td>
+      <td><%= @cr.departure %></td>
+      <td><%= @cr.arrival%></td>
+    </tr>
+  </tbody>
+  </table>
+<button class='btn btn-success'> Confirm User's request</button>
 
-    <p>
-      <strong>Arrival:</strong>
-      <%= @order.arrival %>
-    </p>
+<h2>Or Send to other Airlines</h2>
 
-    <p>
-      <strong>Departure:</strong>
-      <%= @order.departure %>
-    </p>
-  </div>
-  <h1>Modified Request</h1>
-
-
-
+<% @other_acs.each do |ac| %>
+  <input type="radio" name="airline" value=<%= ac.id %> > <%= ac.name %> <br>
 <% end %>
 
-
-
-
+<button class='btn btn-danger'> Submit </button>
+<% end %>
 
 

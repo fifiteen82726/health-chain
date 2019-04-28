@@ -19,6 +19,10 @@ class OrdersController < ApplicationController
 
   # GET /orders/1/edit
   def edit
+    if current_ac
+      @cr = @order.requests.last
+      @other_acs = Ac.all.where('id != ?', current_ac.id)
+    end
   end
 
   # POST /orders

@@ -27,7 +27,7 @@ App = {
   },
 
   initContract: function() {
-    $.getJSON('/Election.json', function(data) {
+    $.getJSON('/abi', function(data) {
       // Get the necessary contract artifact file and instantiate it with truffle-contract
       var ElectionArtifact = data;
       App.contracts.Election = TruffleContract(ElectionArtifact);

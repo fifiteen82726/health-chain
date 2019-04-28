@@ -2,6 +2,11 @@ class HomeController < ApplicationController
   before_action :authenticate_user!, only: :user_home
   before_action :authenticate_ac!, only: :acs_home
 
+  def abi
+    data = File.read("public/Election.json")
+    return render :json => data
+  end
+
   def index
     return redirect_to users_home_path if current_user
     return redirect_to acs_home_path if current_ac

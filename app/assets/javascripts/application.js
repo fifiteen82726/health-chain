@@ -6,4 +6,4 @@
 //= require web3.min.js
 //= require truffle-contract.js
 //= require app.js
-
+//= require sha3.js

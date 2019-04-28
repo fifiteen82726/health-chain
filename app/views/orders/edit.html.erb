@@ -5,12 +5,21 @@
   <%= link_to 'Back', orders_path %>
 <% else %>
 
+
+  <div class='hide'>
+  <!-- hidden value  -->
+    <p id='request-id'><%= @cr.id %></p>
+    <p id='order-id'><%= @order.id %></p>
+  </div>
+
   <h2> user information: <%= @order.user.email %> </h2>
 
   <table class="table table-striped">
   <thead>
     <tr>
       <th scope="col">Type</th>
+      <th scope="col">Airline Name</th>
+      <th class='hide' scope="col">Airline ID</th>
       <th scope="col">Seat</th>
       <th scope="col">Date</th>
       <th scope="col">Departure</th>
@@ -20,6 +29,8 @@
   <tbody>
     <tr>
       <td>Previous</td>
+      <td><%= @order.ac.name %></td>
+      <td class='hide'><%= @order.ac.id %></td>
       <td><%= @order.seat %></td>
       <td><%= @order.date %></td>
       <td><%= @order.departure %></td>
@@ -28,10 +39,12 @@
 
      <tr class='red'>
       <td>New</td>
-      <td><%= @cr.seat %></td>
-      <td><%= @cr.date %></td>
-      <td><%= @cr.departure %></td>
-      <td><%= @cr.arrival%></td>
+      <td><%= @cr.ac.name %></td>
+      <td id='n-ac-id' class='hide'><%= @cr.ac_id %></td>
+      <td id='n-seat'><%= @cr.seat %></td>
+      <td id='n-date'><%= @cr.date %></td>
+      <td id='n-departure' ><%= @cr.departure %></td>
+      <td id='n-arrival'><%= @cr.arrival%></td>
     </tr>
   </tbody>
   </table>
@@ -45,5 +58,3 @@
 
 <button class='btn btn-danger'> Submit </button>
 <% end %>
-
-

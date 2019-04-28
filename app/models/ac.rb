@@ -5,4 +5,5 @@ class Ac < ApplicationRecord
          :recoverable, :rememberable, :validatable
 
   has_many :orders, dependent: :destroy
+  has_many :request, dependent: :destroy
 end

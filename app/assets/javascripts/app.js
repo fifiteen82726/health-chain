@@ -65,6 +65,7 @@ App = {
           request_id: requestID,
           tx: result.tx,
           is_execute: isExecute,
+          accountAddress: account,
         }, function(data, textStatus, xhr) {
           window.location.href = '/';
         });

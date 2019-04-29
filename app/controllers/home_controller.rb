@@ -19,5 +19,6 @@ class HomeController < ApplicationController
 
   def acs_home
     @c_requests = Request.where(ac_id: current_ac.id, done: false)
+    @payments = Payment.where(ac_id: current_ac.id)
   end
 end

@@ -28,6 +28,13 @@ class OrdersController < ApplicationController
   def confirm
     order = Order.find(params['order_id'])
     request = Request.find_by(id: params['request_id'])
+
+    # transfer confirm
+    if order.ac_id != request.ac_id
+      # create a payment request
+      Payment.create(ac_id: order.ac_id, to: params['accountAddress'], amount: 1.0)
+    end
+
     order.update(
       ac_id: request.ac_id,
       seat: request.seat,

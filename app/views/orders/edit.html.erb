@@ -48,11 +48,10 @@
     </tr>
   </tbody>
   </table>
-<button class='btn btn-success' id='confirm'> Confirmt</button>
-<button class='btn btn-warning' id='reject'> Reject</button>
+<button class='btn btn-success' id='confirm'>Confirmt</button>
+<button class='btn btn-warning' id='reject'>Reject</button>
 
 <h2>Or Send to other Airlines</h2>
-
 <% @other_acs.each do |ac| %>
   <input type="radio" name="airline" value=<%= ac.id %> > <%= ac.name %> <br>
 <% end %>
@@ -65,13 +64,10 @@
     $('#transfer').click(function(event) {
       var orderID = $('#order-id').text();
       var requestID = $('#request-id').text();
-      var url = 'order/' + orderID + '/transfer'
-      $.post(url, {requestID: requestID}, function(data, textStatus, xhr) {
-        /*optional stuff to do after success */
-
+      var airlineID = $('input[name=airline]:checked').val();
+      $.post('/orders/' + orderID + '/transfer', {requestID: requestID, airlineID: airlineID}, function(data, textStatus, xhr) {
+          window.location.href = '/';
       });
-      console.log('123');
-
     });
   });
 </script>

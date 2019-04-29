@@ -1,5 +1,15 @@
 <div class='red'><p id="notice"><%= notice %></p></div>
 
+<% @uns.each do |un| %>
+  <% if un.isExecute %>
+    <% status = 'Proved' %>
+  <% else%>
+    <% status = 'Rejected' %>
+  <% end %>
+  <div class="alert alert-primary" role="alert">
+    The OrderID <%= un.order_id %> has been <%= status %>
+  </div>
+<% end %>
 
 <h1>Customer Manager Page</h1>
 <h1>My order</h1>
@@ -35,4 +45,10 @@
 </table>
 <% end %>
 
+
+<script type="text/javascript">
+  $.post('/', {param1: 'value1'}, function(data, textStatus, xhr) {
+    /*optional stuff to do after success */
+  });
+</script>
 

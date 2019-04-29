@@ -48,7 +48,8 @@
     </tr>
   </tbody>
   </table>
-<button class='btn btn-success' id='confirm'> Confirm User's request</button>
+<button class='btn btn-success' id='confirm'> Confirmt</button>
+<button class='btn btn-warning' id='reject'> Reject</button>
 
 <h2>Or Send to other Airlines</h2>
 
@@ -56,5 +57,21 @@
   <input type="radio" name="airline" value=<%= ac.id %> > <%= ac.name %> <br>
 <% end %>
 
-<button class='btn btn-danger'> Submit </button>
+<button id='transfer' class='btn btn-danger'> Transfer </button>
 <% end %>
+
+<script>
+  $(function() {
+    $('#transfer').click(function(event) {
+      var orderID = $('#order-id').text();
+      var requestID = $('#request-id').text();
+      var url = 'order/' + orderID + '/transfer'
+      $.post(url, {requestID: requestID}, function(data, textStatus, xhr) {
+        /*optional stuff to do after success */
+
+      });
+      console.log('123');
+
+    });
+  });
+</script>

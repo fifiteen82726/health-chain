@@ -25,6 +25,30 @@ class OrdersController < ApplicationController
     end
   end
 
+  def confirm
+    order = Order.find(params['order_id'])
+    request = Request.find_by(id: params['request_id'])
+    order.update(
+      ac_id: request.ac_id,
+      seat: request.seat,
+      date: request.date,
+      arrival: request.arrival,
+      departure: request.departure,
+    )
+    is_execute = (params['is_execute'] == 'true')
+    order.update(status: true)
+
+    request.update(done: true, tx: params['tx'], is_execute: is_execute)
+    UserNotification.create(user_id: order.user_id, order_id: order.id, request_id: request.id, isExecute: is_execute, read: false)
+
+    ok
+  end
+
+  def transfer
+    binding.pry
+
+  end
+
   # POST /orders
   # POST /orders.json
   def create

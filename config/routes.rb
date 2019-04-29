@@ -1,5 +1,8 @@
 Rails.application.routes.draw do
-  resources :orders
+  resources :orders do
+    post :confirm
+    post :transfer
+  end
   devise_for :acs
   devise_for :users
   root 'home#index'

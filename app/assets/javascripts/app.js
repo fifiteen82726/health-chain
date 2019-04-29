@@ -42,7 +42,8 @@ App = {
         console.log(error);
       }
       var account = accounts[0];
-      console.log('createOrderRequest');
+      var requestID;
+      var orderID;
 
       App.contracts.Election.deployed().then(function(instance) {
         airlineInstance = instance;
@@ -50,8 +51,8 @@ App = {
 
         // get user request info
         // orderID, request
-        var requestID = parseInt($('#request-id').text());
-        // var orderID = parseInt($('#order-id').text());
+        requestID = parseInt($('#request-id').text());
+        orderID = parseInt($('#order-id').text());
         var seat = $('#n-seat').text();
         var date = $('#n-date').text();
         var departure = $('#n-departure').text();
@@ -60,10 +61,13 @@ App = {
         var hashValue = hash(seat, date, departure, arrival, airlineID);
         return airlineInstance.createOrderRequest(requestID, isExecute, hashValue);
       }).then(function(result) {
-        // update db if successful
-        // debugger
-        // result.tx => tx hash value
-        // return App.markAdopted();
+        $.post('/orders/' + orderID.toString() + '/confirm', {
+          request_id: requestID,
+          tx: result.tx,
+          is_execute: isExecute,
+        }, function(data, textStatus, xhr) {
+          window.location.href = '/';
+        });
       }).catch(function(err) {
         console.log(err.message);
       });

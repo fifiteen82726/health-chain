@@ -14,6 +14,7 @@ class HomeController < ApplicationController
 
   def user_home
     @orders = Order.where(user_id: current_user.id)
+    @uns = UserNotification.where(user_id: current_user.id, read: false)
   end
 
   def acs_home

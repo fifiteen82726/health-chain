@@ -42,11 +42,21 @@ class OrdersController < ApplicationController
       arrival: request.arrival,
       departure: request.departure,
     )
+
     is_execute = (params['is_execute'] == 'true')
     order.update(status: false)
-
     request.update(done: true, tx: params['tx'], is_execute: is_execute)
     UserNotification.create(user_id: order.user_id, order_id: order.id, request_id: request.id, isExecute: is_execute, read: false)
+
+    ok
+  end
+
+  def reject
+    order = Order.find(params['order_id'])
+    request = Request.find_by(id: params['request_id'])
+    request.update(done: true, is_execute: false)
+    order.update(status: false)
+    UserNotification.create(user_id: order.user_id, order_id: order.id, request_id: request.id, isExecute: false, read: false)
 
     ok
   end

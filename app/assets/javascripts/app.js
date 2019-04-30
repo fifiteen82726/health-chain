@@ -161,7 +161,52 @@ App = {
       });
     });
   },
+
+  register: function(){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        // hashValue is empty since there's no valid request was confirm
+        return airlineInstance.register({from: account, gas: 3000000, value: 10000});
+      }).then(function(result) {
+        debugger
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  pay: function(receiver, payID){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        // var receiver = ()
+        // return airlineInstance.register({from: account, gas: 3000000, value: 10000});
+        web3.eth.sendTransaction({to: receiver, from: account, value: web3.toWei("1", "ether")}, function(err, res){
+
+          $.post('/settle_payment', {pay_id: payID}, function(data, textStatus, xhr) {
+            window.location.href = '/';
+          });
+        });
+      });
+    });
+  },
 };
+
+//call function with value
+// myContractInstance.depositFunds({from: web3.eth.accounts[0], gas: 3000000, value: 100}, function(err, res){});
 
 
 // send money
@@ -183,6 +228,15 @@ $(function() {
     App.transfer();
   });
 
+  $('#register').click(function(event) {
+    App.register();
+  });
+
+  $('#pay').click(function(event) {
+    var receiver = $(this).attr('address');
+    var payID = $(this).attr('payID');
+    App.pay(receiver, payID);
+  });
 });
 
 function hash(){

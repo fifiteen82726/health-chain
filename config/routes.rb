@@ -10,5 +10,6 @@ Rails.application.routes.draw do
   get 'users_home' => 'home#user_home'
   get 'acs_home' => 'home#acs_home'
   get 'abi' => 'home#abi'
+  post 'settle_payment' => 'home#settle_payment'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end

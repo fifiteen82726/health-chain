@@ -19,6 +19,11 @@ class HomeController < ApplicationController
 
   def acs_home
     @c_requests = Request.where(ac_id: current_ac.id, done: false)
-    @payments = Payment.where(ac_id: current_ac.id)
+    @payments = Payment.where(ac_id: current_ac.id, done: false)
+  end
+
+  def settle_payment
+    payment = Payment.find_by(id: params['pay_id'])
+    payment.update(done: true)
   end
 end

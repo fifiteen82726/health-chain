@@ -24,7 +24,7 @@
     <tr>
       <td><%= cr.id %></td>
       <td><%= cr.seat %></td>
-      <td><%= cr.date %></td>
+    <td><%= cr.date %></td>
       <td><%= cr.departure %></td>
       <td><%= cr.arrival%></td>
       <td><%= button_to 'Inspect', edit_order_path(cr.order_id), class: 'btn btn-success', method: :get %>
@@ -37,5 +37,21 @@
 
 <h2>Payment request from partners</h2>
 <% @payments.each do |payment| %>
+  <table class="table table-striped">
+  <thead>
+    <tr>
+      <th scope="col">To</th>
+      <th scope="col">Amount(ether)</th>
+      <th scope="col">Action</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><%= payment.to %></td>
+      <td><%= payment.amount %></td>
+      <td><button class="btn btn-primary" id='pay' payID=<%= payment.id %>  address=<%= payment.to %>>Pay</button></td>
+    </tr>
+  </tbody>
+</table>
 
 <% end %>

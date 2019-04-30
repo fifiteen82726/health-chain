@@ -31,6 +31,7 @@ App = {
       var ElectionArtifact = data;
       App.contracts.Election = TruffleContract(ElectionArtifact);
       App.contracts.Election.setProvider(App.web3Provider);
+      App.fetchRegisterStatus();
     });
   },
 
@@ -73,34 +74,115 @@ App = {
         console.log(err.message);
       });
     });
-  }
+  },
 
-  // Get hash valu by given data
-  // Allow multiple parameter
-  // fetch data from BlockChain
-  // markAdopted: function(adopters, account) {
-  //   var adoptionInstance;
+  transfer: function(){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+      var seat = $('#n-seat').text();
+      var date = $('#n-date').text();
+      var departure = $('#n-departure').text();
+      var arrival = $('#n-arrival').text();
+      var airlineID = $('#n-ac-id').text();
+      var hashValue = hash(seat, date, departure, arrival, airlineID);
 
-  //   App.contracts.Election.deployed().then(function(instance) {
-  //     adoptionInstance = instance;
-  //     // return adoptionInstance.candidatesCount.call();
-  //   }).then(function(result) {
-  //     // return BlockChain API request
-  //     console.log(result);
-  //   /*
-  //    * Replace me...
-  //    */
-  //  });
-  // }
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        var requestID = parseInt($('#request-id').text());
+        var orderID = parseInt($('#order-id').text());
+        return airlineInstance.request(requestID, hashValue);
+      }).then(function(result) {
+        var orderID = $('#order-id').text();
+        var requestID = $('#request-id').text();
+        var airlineID = $('input[name=airline]:checked').val();
+        $.post('/orders/' + orderID + '/transfer', {requestID: requestID, airlineID: airlineID}, function(data, textStatus, xhr) {
+            window.location.href = '/';
+        });
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  rejectRequest: function(){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+      var requestID;
+      var orderID;
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        requestID = parseInt($('#request-id').text());
+        orderID = parseInt($('#order-id').text());
+        var hashValue = ''
+
+        // hashValue is empty since there's no valid request was confirm
+        return airlineInstance.createOrderRequest(requestID, false, hashValue);
+      }).then(function(result) {
+        $.post('/orders/' + orderID.toString() + '/reject', {
+          request_id: requestID,
+          tx: result.tx,
+          is_execute: false,
+          accountAddress: account,
+        }, function(data, textStatus, xhr) {
+          window.location.href = '/';
+        });
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  fetchRegisterStatus: function(){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        // hashValue is empty since there's no valid request was confirm
+        return airlineInstance.member(account);
+      }).then(function(result) {
+        if(result.toString() == '0') $('#register').show();
+        else $('#already-register').show();
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
 };
+
+
+// send money
+// web3.sendTransaction({to:receiver, from:sender, value:web3.toWei("0.5", "ether")})
 
 $(function() {
   $(window).load(function() {
     App.init();
   });
   $('#confirm').click(function(event) {
-    App.createOrderRequest(true)
+    App.createOrderRequest(true);
   });
+
+  $('#reject').click(function(event) {
+    App.rejectRequest();
+  });
+
+  $('#transfer').click(function(event) {
+    App.transfer();
+  });
+
 });
 
 function hash(){

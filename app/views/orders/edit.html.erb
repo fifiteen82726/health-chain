@@ -58,16 +58,3 @@
 
 <button id='transfer' class='btn btn-danger'> Transfer </button>
 <% end %>
-
-<script>
-  $(function() {
-    $('#transfer').click(function(event) {
-      var orderID = $('#order-id').text();
-      var requestID = $('#request-id').text();
-      var airlineID = $('input[name=airline]:checked').val();
-      $.post('/orders/' + orderID + '/transfer', {requestID: requestID, airlineID: airlineID}, function(data, textStatus, xhr) {
-          window.location.href = '/';
-      });
-    });
-  });
-</script>

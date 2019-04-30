@@ -2,6 +2,7 @@ Rails.application.routes.draw do
   resources :orders do
     post :confirm
     post :transfer
+    post :reject
   end
   devise_for :acs
   devise_for :users

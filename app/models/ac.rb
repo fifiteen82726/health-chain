@@ -6,4 +6,5 @@ class Ac < ApplicationRecord
 
   has_many :orders, dependent: :destroy
   has_many :request, dependent: :destroy
+  has_many :payments, dependent: :destroy
 end

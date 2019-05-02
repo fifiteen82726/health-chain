@@ -32,6 +32,7 @@ App = {
       App.contracts.Election = TruffleContract(ElectionArtifact);
       App.contracts.Election.setProvider(App.web3Provider);
       App.fetchRegisterStatus();
+      App.isChairman();
     });
   },
 
@@ -162,6 +163,28 @@ App = {
     });
   },
 
+  isChairman: function(){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        // hashValue is empty since there's no valid request was confirm
+        return airlineInstance.chairman();
+      }).then(function(result) {
+        if(account == result.toString()){
+          $('#unregister').show();
+        }
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
   register: function(){
     var airlineInstance;
     web3.eth.getAccounts(function(error, accounts) {
@@ -175,7 +198,27 @@ App = {
         // hashValue is empty since there's no valid request was confirm
         return airlineInstance.register({from: account, gas: 3000000, value: 10000});
       }).then(function(result) {
-        debugger
+        window.location.href = '/';
+      }).catch(function(err) {
+        console.log(err.message);
+      });
+    });
+  },
+
+  unregister: function(addr){
+    var airlineInstance;
+    web3.eth.getAccounts(function(error, accounts) {
+      if (error) {
+        console.log(error);
+      }
+      var account = accounts[0];
+
+      App.contracts.Election.deployed().then(function(instance) {
+        airlineInstance = instance;
+        // hashValue is empty since there's no valid request was confirm
+        return airlineInstance.unregister(addr);
+      }).then(function(result) {
+        window.location.href = '/';
       }).catch(function(err) {
         console.log(err.message);
       });
@@ -237,6 +280,13 @@ $(function() {
     var payID = $(this).attr('payID');
     App.pay(receiver, payID);
   });
+
+  $('#unregister-btn').click(function(event) {
+    var addr = $('#unregister-address').val();
+    console.log('unregister');
+    App.unregister(addr);
+  });
+
 });
 
 function hash(){

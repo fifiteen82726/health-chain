@@ -28,7 +28,7 @@ gem 'jbuilder', '~> 2.5'
 gem 'jquery-rails'
 gem "pry-rails", "~> 0.3.4"
 gem "pry-byebug", "~> 3.5.0"
-gem 'bootstrap', '~> 4.1.3'
+gem 'bootstrap', '~> 4.3.1'
 # Use Redis adapter to run Action Cable in production
 gem 'redis', '~> 4.0'
 gem 'devise'
